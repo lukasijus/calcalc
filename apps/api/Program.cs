@@ -1,5 +1,14 @@
+using Microsoft.EntityFrameworkCore; 
+using calcalc.api.Data;
+using DotNetEnv; 
+
+Env.TraversePath().Load();
+
+var connectionString = Environment.GetEnvironmentVariable("DEVELOPMENT_DB_NAME") ?? throw new InvalidOperationException("Database name is either wrong or missing"); 
+
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connectionString));
 // Add services to the container.
 
 builder.Services.AddControllers();
