@@ -31,4 +31,20 @@ public class UserController : ControllerBase
 				user.CreatedAt
 				});
 	}
+
+	[HttpGet]
+	public async Task <IActionResult>GetAll()
+	{
+		var users = await _db.Users
+			.AsNoTracking()
+			.Select(user => new 
+					{
+					user.Id,
+					user.Email,
+					user.CreatedAt
+					})
+			.ToListAsync();
+
+			return Ok(users);
+	}
 }
